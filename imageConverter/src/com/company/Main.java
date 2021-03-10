@@ -6,26 +6,28 @@ import java.awt.image.ColorConvertOp;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 import javax.imageio.ImageIO;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedImage img = ImageIO.read(new File("heightMap.png"));
-        BufferedImage dimg = ImageIO.read(new File("diffuse.png"));
+        for(int i = 0; i < args.length;i++){
+            if(args[i].equals("-help")){
+                System.out.println("Syntax: _heightMap _diffuseMap startingHeight(1,255) outputFileName");
+            }
+        }
+
+        BufferedImage img = ImageIO.read(new File(args[0]));
+        BufferedImage dimg = ImageIO.read(new File(args[1]));
         BufferedImage blank2 = dimg;
-        //Create temporary copy of blank
         dimg = new BufferedImage(dimg.getWidth(), dimg.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        // Recreate blank as an ARGB BufferedImage
         ColorConvertOp convert = new ColorConvertOp(null);
-        // Now create a ColorConvertOp object
         convert.filter(blank2, dimg);
 
         int width = img.getWidth();
         int height = img.getHeight();
-        int defaultWL = 1;
+        int defaultWL = Integer.parseInt(args[2]);
         ArrayList<PixelInf> pixels = new ArrayList<PixelInf>();
         Graphics2D g2d = dimg.createGraphics();
 
@@ -40,8 +42,6 @@ public class Main {
                 }else{
                     PixelInf pixelInf = new PixelInf(x,y,img.getRGB(x,y));
                     pixels.add(pixelInf);
-                    //Color color = new Color(0,0,0);
-                    //img.setRGB(x,y, color.getRGB());
                 }
                 System.out.println("[" + x + "] [" + y + "]");
             }
@@ -62,14 +62,11 @@ public class Main {
             if(save){
                 g2d.dispose();
                 System.out.println("Saving...");
-                File file = new File("D:\\skrr\\WaterLevel" + (wl) + ".png");
+                File file = new File("D:\\skrr\\" + args[3] + "_" + (wl) + ".png");
                 ImageIO.write(dimg, "png", file);
                 System.out.println("Saved!");
             }
         }
-
-
         System.out.println("Done!");
-
     }
 }
