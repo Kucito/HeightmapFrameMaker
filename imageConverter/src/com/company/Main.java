@@ -36,7 +36,6 @@ public class Main {
                 for (int y = 0; y < height; y++){
                     int rgb = img.getRGB(x,y);
                     int blue =   rgb & 0x000000ff;
-                    System.out.println(blue);
                     if(blue < defaultWL){
                         Color color = new Color(2,5,20);
                         dimg.setRGB(x,y, color.getRGB());
@@ -44,29 +43,25 @@ public class Main {
                         PixelInf pixelInf = new PixelInf(x,y,img.getRGB(x,y));
                         pixels.add(pixelInf);
                     }
-                    System.out.println("[" + x + "] [" + y + "]");
+                    System.out.println("Reading [" + x + "][" + y + "] pixel...");
                 }
             }
             System.out.println("Preparing pixels...");
-            boolean save = false;
+
             for(int wl = defaultWL ; wl < 255; wl++){
-                save = false;
                 for(int i = 0; i < pixels.size(); i++){
-                    System.out.println("[" + wl + "] [" + i + "]");
+                    System.out.println("Writing [" + wl + "] image, processing [" + pixels.get(i).getX() + "][" + pixels.get(i).getY() + "] pixel...");
                     if(pixels.get(i).getBlue() < wl){
                         Color color = new Color(2,5,20);
                         dimg.setRGB(pixels.get(i).getX(),pixels.get(i).getY(),color.getRGB());
                         pixels.remove(i);
-                        save = true;
                     }
                 }
-                if(save){
-                    g2d.dispose();
-                    System.out.println("Saving...");
-                    File file = new File(args[3] + "_" + (wl) + "." + args[4]);
-                    ImageIO.write(dimg, args[4], file);
-                    System.out.println("Saved!");
-                }
+                g2d.dispose();
+                System.out.println("Saving...");
+                File file = new File(args[3] + "_" + (wl) + "." + args[4]);
+                ImageIO.write(dimg, args[4], file);
+                System.out.println("Saved!");
             }
             System.out.println("Done!");
         }
