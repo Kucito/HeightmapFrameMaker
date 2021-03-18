@@ -1,1 +1,1 @@
-java -jar imageConverter.jar noise.png noise.png 1 World png
+java -jar imageConverter.jar balkanshm.png balkansdiff.png 1 World png

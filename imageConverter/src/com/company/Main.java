@@ -32,6 +32,7 @@ public class Main {
             ArrayList<PixelInf> pixels = new ArrayList<PixelInf>();
             Graphics2D g2d = dimg.createGraphics();
 
+            System.out.println("Reading [" + width * height + "] pixels...");
             for(int x = 0; x < width; x++){
                 for (int y = 0; y < height; y++){
                     int rgb = img.getRGB(x,y);
@@ -43,14 +44,15 @@ public class Main {
                         PixelInf pixelInf = new PixelInf(x,y,img.getRGB(x,y));
                         pixels.add(pixelInf);
                     }
-                    System.out.println("Reading [" + x + "][" + y + "] pixel...");
+
                 }
             }
             System.out.println("Preparing pixels...");
 
             for(int wl = defaultWL ; wl < 255; wl++){
+                System.out.println("Writing [" + wl + "] image, processing [" + pixels.size() + "] pixels...");
                 for(int i = 0; i < pixels.size(); i++){
-                    System.out.println("Writing [" + wl + "] image, processing [" + pixels.get(i).getX() + "][" + pixels.get(i).getY() + "] pixel...");
+                    ;
                     if(pixels.get(i).getBlue() < wl){
                         Color color = new Color(2,5,20);
                         dimg.setRGB(pixels.get(i).getX(),pixels.get(i).getY(),color.getRGB());
